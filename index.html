@@ -3,86 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Election Assistant - Official Guide</title>
+    <title>Election Assistant - Elite Edition</title>
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --bot-msg: #f1f5f9; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; margin: 0; }
-        #chat-container { width: 100%; max-width: 600px; background: white; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; height: 90vh; border: 1px solid #e2e8f0; }
-        #header { background: var(--primary); color: white; padding: 20px; text-align: center; border-radius: 12px 12px 0 0; }
-        #chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 12px; line-height: 1.5; font-size: 15px; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .bot { background: var(--bot-msg); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .controls { padding: 20px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; background: white; border-radius: 0 0 12px 12px; }
-        input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 15px; }
-        button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .quick-btn { background: white; color: var(--primary); border: 1px solid var(--primary); font-size: 13px; padding: 6px 12px; border-radius: 20px; cursor: pointer; transition: 0.2s; }
-        .quick-btn:hover { background: var(--primary); color: white; }
-        .google-btn { background: #4285F4; color: white !important; text-decoration: none; padding: 10px 15px; border-radius: 6px; font-size: 13px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-top: 5px; }
+        :root { --primary: #1a73e8; --bg: #f8fafc; --text: #202124; --bot-msg: #f1f3f4; }
+        body { font-family: 'Google Sans', Arial, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        
+        #chat-container { 
+            width: 95%; max-width: 500px; background: white; border-radius: 16px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: column; height: 85vh; border: 1px solid #dadce0; 
+        }
+        
+        #header { background: var(--primary); color: white; padding: 24px; text-align: center; border-radius: 16px 16px 0 0; }
+        #chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
+        
+        .msg { max-width: 80%; padding: 14px 18px; border-radius: 18px; font-size: 14px; line-height: 1.4; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .bot { background: var(--bot-msg); align-self: flex-start; border-bottom-left-radius: 4px; color: #3c4043; }
+        .user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        
+        .controls { padding: 16px; border-top: 1px solid #dadce0; display: flex; gap: 12px; background: white; border-radius: 0 0 16px 16px; }
+        input { flex: 1; padding: 12px 16px; border: 1px solid #dfe1e5; border-radius: 24px; outline: none; font-size: 14px; transition: 0.2s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 1px 6px rgba(32,33,36,0.28); }
+        
+        button { background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 24px; cursor: pointer; font-weight: 500; transition: 0.3s; }
+        button:hover { background: #185abc; transform: scale(1.02); }
+        
+        .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+        .quick-btn { background: white; color: var(--primary); border: 1px solid #dadce0; padding: 8px 16px; border-radius: 16px; cursor: pointer; font-size: 12px; transition: 0.2s; }
+        .quick-btn:hover { background: #f8f9fa; border-color: var(--primary); }
+        
+        .google-btn { 
+            background: #4285F4; color: white !important; text-decoration: none; 
+            padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold;
+            display: inline-flex; align-items: center; gap: 10px; margin-top: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
+
 <div id="chat-container" role="main">
     <div id="header">
-        <h1 style="margin:0; font-size: 22px;">🗳️ Election Assistant</h1>
-        <p style="margin:5px 0 0; font-size: 13px; opacity: 0.9;">Secure AI Voting Guide</p>
+        <h1 style="margin:0; font-size: 20px;">🗳️ Election Assistant</h1>
+        <p style="margin:4px 0 0; font-size: 12px; opacity: 0.8;">Smart Voting Knowledge Base</p>
     </div>
+
     <div id="chat-box" aria-live="polite">
         <div class="msg bot">
-            Hello! I can help you with registration, deadlines, and the voting process.
+            I'm your official Election Assistant. I can help with **registration**, **IDs**, or **deadlines**.
             <div class="btn-group">
                 <button class="quick-btn" onclick="handleBtn('Register')">How to Register</button>
-                <button class="quick-btn" onclick="handleBtn('Dates')">Key Deadlines</button>
-                <button class="quick-btn" onclick="handleBtn('ID')">ID Requirements</button>
+                <button class="quick-btn" onclick="handleBtn('Dates')">Deadlines</button>
+                <button class="quick-btn" onclick="handleBtn('ID')">ID Info</button>
             </div>
         </div>
     </div>
+
     <div class="controls">
-        <input type="text" id="userInput" placeholder="Ask about registration or deadlines..." aria-label="Chat input">
+        <input type="text" id="userInput" placeholder="Ask a question..." aria-label="Message Input">
         <button onclick="sendMessage()">Send</button>
     </div>
 </div>
+
 <script>
+    const responses = {
+        'Register': "Registration is the first step! Visit your state's election portal. Most deadlines are 30 days before the election.",
+        'Dates': "Election Day is November 5th. Early voting typically starts 2-4 weeks prior.",
+        'ID': "Requirements vary by state. Most require a photo ID (Driver's License or Passport).",
+        'Process': "1. Find your poll location. 2. Bring ID. 3. Verify your info. 4. Cast your ballot."
+    };
+
     function sanitize(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
-    const responses = {
-        'Register': "To register, visit your Secretary of State's website. Deadlines are usually 30 days before Election Day.",
-        'Dates': "General Election Day is November 5th. Make sure you're ready!",
-        'ID': "Most states require a Photo ID. Check your local requirements for utility bill options.",
-        'Process': "1. Find your polling place. 2. Bring your ID. 3. Check in. 4. Cast your vote!"
-    };
+
     function sendMessage() {
         const input = document.getElementById('userInput');
-        const text = input.value.trim().toLowerCase();
-        if (!text) return;
+        const query = input.value.trim().toLowerCase();
+        if (!query) return;
+
         appendMessage(input.value, true);
         input.value = '';
+
+        // Show "thinking" state
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'msg bot';
+        loadingDiv.innerText = '...';
+        document.getElementById('chat-box').appendChild(loadingDiv);
+
         setTimeout(() => {
-            if (text.includes('reg')) handleBtn('Register');
-            else if (text.includes('date') || text.includes('when')) handleBtn('Dates');
-            else if (text.includes('id') || text.includes('license')) handleBtn('ID');
-            else if (text.includes('vote') || text.includes('how')) handleBtn('Process');
-            else appendMessage("I'm here to help with registration and voting rules!", false);
-        }, 500);
+            loadingDiv.remove();
+            if (query.includes('reg') || query.includes('sign')) handleBtn('Register');
+            else if (query.includes('when') || query.includes('date') || query.includes('deadline')) handleBtn('Dates');
+            else if (query.includes('id') || query.includes('license') || query.includes('photo')) handleBtn('ID');
+            else if (query.includes('vote') || query.includes('how')) handleBtn('Process');
+            else appendMessage("I'm not sure about that. Try asking about registration or voting deadlines!", false);
+        }, 600);
     }
+
     function handleBtn(type) {
         appendMessage(responses[type], false);
         if (type === 'Dates') {
             const chatBox = document.getElementById('chat-box');
-            const link = document.createElement('a');
-            link.className = 'google-btn';
-            link.target = "_blank";
-            link.href = "https://www.google.com/calendar/render?action=TEMPLATE&text=Election+Day&dates=20241105T130000Z/20241105T230000Z";
-            link.innerHTML = "📅 Add Election Day to Google Calendar";
-            chatBox.appendChild(link);
+            const gLink = document.createElement('a');
+            gLink.className = 'google-btn';
+            gLink.target = "_blank";
+            gLink.href = "https://www.google.com/calendar/render?action=TEMPLATE&text=Election+Day&dates=20241105T120000Z/20241105T220000Z";
+            gLink.innerHTML = "📅 Sync Election Day to Google Calendar";
+            chatBox.appendChild(gLink);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     }
+
     function appendMessage(text, isUser) {
         const chatBox = document.getElementById('chat-box');
         const msgDiv = document.createElement('div');
@@ -91,7 +127,10 @@
         chatBox.appendChild(msgDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-    document.getElementById('userInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
 </script>
 </body>
 </html>
