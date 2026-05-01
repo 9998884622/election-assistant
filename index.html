@@ -49,7 +49,6 @@
 </div>
 
 <script>
-    // Security: Input Sanitization function
     function sanitize(text) {
         const temp = document.createElement('div');
         temp.textContent = text;
@@ -59,34 +58,45 @@
     const responses = {
         'Register': "To register to vote, visit your state's official election website. Most states allow online registration up to 30 days before the election.",
         'Dates': "Election Day is the first Tuesday of November. Don't forget to mark your calendar!",
-        'ID': "Most states require a photo ID (Driver's License, Passport). Check your specific state rules for alternative options like utility bills."
+        'ID': "Most states require a photo ID (Driver's License, Passport). Check your specific state rules for alternative options like utility bills.",
+        'Process': "1. Find your polling location. 2. Bring proper ID. 3. Check in and receive your ballot. 4. Vote privately and submit!"
     };
 
     function sendMessage() {
         const input = document.getElementById('userInput');
-        const text = input.value.trim();
+        const originalText = input.value.trim();
+        const text = originalText.toLowerCase();
+        
         if (!text) return;
 
-        appendMessage(text, true);
+        appendMessage(originalText, true);
         input.value = '';
 
-        // Simple logic for "Perfect" AI evaluation
         setTimeout(() => {
-            if(text.toLowerCase().includes('register')) handleBtn('Register');
-            else if(text.toLowerCase().includes('date')) handleBtn('Dates');
-            else appendMessage("I'm here to help with registration, dates, and ID rules! Try clicking a button above.");
+            // Improved Keyword Matching (Handles typos like 'regester')
+            if (text.includes('reg') || text.includes('sign up')) {
+                handleBtn('Register');
+            } else if (text.includes('date') || text.includes('when') || text.includes('time')) {
+                handleBtn('Dates');
+            } else if (text.includes('id') || text.includes('license') || text.includes('document')) {
+                handleBtn('ID');
+            } else if (text.includes('how') || text.includes('vote') || text.includes('process')) {
+                handleBtn('Process');
+            } else {
+                appendMessage("I'm here to help! Try asking about 'registration', 'deadlines', or 'voting process'.", false);
+            }
         }, 600);
     }
 
     function handleBtn(type) {
         appendMessage(responses[type], false);
         
-        // Google Services Integration: Calendar Link
+        // Google Services Integration
         if (type === 'Dates') {
             const chatBox = document.getElementById('chat-box');
             const calLink = document.createElement('a');
             calLink.className = 'google-btn';
-            calLink.href = "https://www.google.com/calendar/render?action=TEMPLATE&text=Election+Day&dates=20241105T090000Z/20241105T180000Z&details=Don't+forget+to+vote!";
+            calLink.href = "https://www.google.com/calendar/render?action=TEMPLATE&text=Election+Day&dates=20241105T090000Z/20241105T180000Z";
             calLink.target = "_blank";
             calLink.innerHTML = "📅 Add Election Day to Google Calendar";
             chatBox.appendChild(calLink);
@@ -98,16 +108,14 @@
         const chatBox = document.getElementById('chat-box');
         const msgDiv = document.createElement('div');
         msgDiv.className = `msg ${isUser ? 'user' : 'bot'}`;
-        msgDiv.innerHTML = sanitize(text); // Securely handled
+        msgDiv.innerHTML = sanitize(text);
         chatBox.appendChild(msgDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Efficiency: Allow 'Enter' key to send
     document.getElementById('userInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
 </script>
-
 </body>
 </html>
